@@ -101,7 +101,6 @@ class LogicFunctions {
           season[0] += playedMinute
       }
     }
-    console.log(season)
     return names[season.indexOf(Math.max(...season))]
 
   }
@@ -214,6 +213,6 @@ let test;
 readJson().then((value) => {
 
   test = new State(value);
-  console.log(test)
+  //console.log(test)
  
 });
