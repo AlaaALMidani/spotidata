@@ -8,7 +8,7 @@ function Artists() {
       </div>
       <div className="flex flex-col items-center justify-center w-full">
         <div className="flex items-center justify-between w-full  flex-row-reverse ">
-          <select className=" py-2.5 px-0 w-1/8 text-lg text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 m-8 flex flex-col-reverse">
+          <select className=" py-2.5 px-0 w-1/8 text-lg text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 mr-40 my-8 flex flex-col-reverse">
             <option>Last year</option>
             <option>Since beginning</option>
           </select>
