@@ -130,6 +130,56 @@ class LogicFunctions {
     data.forEach((e) => { sum += e.msPlayed })
     return sum;
   }
+  static getPlays(data,artist){
+    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    return filtered
+  }
+  static getDifferentTracksNumber(data,artist){
+    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let tracks = []
+    for(let i of filtered){
+      if(tracks.indexOf(i.trackName) ==-1){
+        tracks.push(i.trackName)
+      }
+    }
+    return tracks.length
+  }
+  static getTimeListening(data,artist){
+    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let times = 0
+    for(let i of filtered){
+      times+= i.msPlayed
+    }
+    return times
+  }
+  static getDifferentTracks(data,artist){
+    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let tracks = []
+    for(let i of filtered){
+      if(tracks.indexOf(i.trackName) ==-1){
+        tracks.push(i)
+      }
+    }
+    return tracks
+  }
+  static getTop20(data,id){
+    let tracks = this.getDifferentTracks(data,id)
+    let map = new Map()
+    for(let i of tracks){
+      if(!map.has(i.trackName)){
+        map.set(i.trackName,i.msPlayed)
+      }
+      else{
+        map.set(i.trackName, map.get(i.trackName)+ i.msPlayed) 
+      }
+    }
+    let array = Array.from(map).sort((a,b)=> b[1]-a[1])
+    let result = []
+    for(let i of array){
+      result.push(i[0])
+    }
+    return result
+  }
 }
 
 class State {
@@ -138,10 +188,12 @@ class State {
   all = [];
   tracks = [];
   podcast = [];
+ 
   //sorted lists (contain objects of Audio Class )
   sortedTracks;
   sortedArtists;
   sortedAlbums;
+ 
   //all statistics
   playsNumber; //1.how many total plays
   differentAudios; //2.how many different tracks
@@ -149,6 +201,7 @@ class State {
   dailyAverageTimeSpent; //4.daily average time spent listing (non-skipped songs)
   preferredHour; //5.in which hour of the day does the user spend most time listening
   preferredSeason; //6.in which season of the year does the user spend most time listing 
+ 
   //songs 
   songsPlaysNumber; //1.how many total plays
   songsDifferentAudios; //2.how many different tracks
@@ -156,6 +209,7 @@ class State {
   songsDailyAverageTimeSpent; //4.daily average time spent listing (non-skipped songs)
   songsPreferredHour; //5.in which hour of the day does the user spend most time listening
   songsPreferredSeason; //6.in which season of the year does the user spend most time listing 
+ 
   //podcasts
   podcastPlaysNumber; //1.how many total plays
   podcastDifferentAudios; //2.how many different tracks
@@ -165,6 +219,7 @@ class State {
   podcastPreferredSeason; //6.in which season of the year does the user spend most time listing 
 
   constructor(data) {
+    
     //converting list of json objects into list of Audio objects
     this.all = data.map((e) => new Audio(e))
 
@@ -184,6 +239,7 @@ class State {
     this.dailyAverageTimeSpent = LogicFunctions.getAverageListingHoursInDay(this.all)
     this.preferredHour = LogicFunctions.getPreferredListingHour(this.all)
     this.preferredSeason = LogicFunctions.getPreferredListingSeason(this.all)
+    
     //set songs data 
     this.songsPlaysNumber = this.tracks.length
     this.songsDifferentAudios = LogicFunctions.countUniqElements(this.tracks, 'trackName')
@@ -191,6 +247,7 @@ class State {
     this.songsDailyAverageTimeSpent = LogicFunctions.getAverageListingHoursInDay(this.tracks)
     this.songsPreferredHour = LogicFunctions.getPreferredListingHour(this.tracks)
     this.songsPreferredSeason = LogicFunctions.getPreferredListingSeason(this.tracks)
+    
     //set podcasts data 
     this.podcastPlaysNumber = this.podcast.length
     this.podcastDifferentAudios = LogicFunctions.countUniqElements(this.podcast, 'episodeName')
@@ -198,10 +255,51 @@ class State {
     this.podcastDailyAverageTimeSpent = LogicFunctions.getAverageListingHoursInDay(this.podcast)
     this.podcastPreferredHour = LogicFunctions.getPreferredListingHour(this.podcast)
     this.podcastPreferredSeason = LogicFunctions.getPreferredListingSeason(this.podcast)
+    
+  }
+  getPlaysOfArtist(id)
+  {
+    let result = LogicFunctions.getPlays(this.tracks,id)
+    return result.length
+  }
+  getDifferentTracksOfArtist(id){
+    let result = LogicFunctions.getDifferentTracks(this.tracks,id)
+    return result
+  }
+  getTimeListeningOfArtist(id){
+    let result = LogicFunctions.getTimeListening(this.tracks,id)
+    return result
+  }
+  getPercentageOfArtist(id){
+    let artistTime = LogicFunctions.getTimeListening(this.tracks,id)
+    let result = artistTime*  100/this.songsSpentListingTime
+    return (Math.floor(result*100))/100+"%"
+  }
+  getPositiionOfAritst(id){
+    let pos = this.sortedArtists
+    let result = 0
+    for(let i of pos){
+      if(i[0] == id){
+        result = pos.indexOf(i) + 1
+      }
+    }
+    return result + '#'
+  }
+  getFavoriteSeasonOfArtist(id){
+    let list =  LogicFunctions.getTimeListening(this.tracks,id)
+    let result = LogicFunctions.getPreferredListingSeason(list)
+    return result
+  }
+  getTop20OfArtist(id){
+    let result = LogicFunctions.getTop20(this.tracks,id)
+    return result
   }
 }
 
-
+//how many different tracks
+// how much time spent listening 
+//the percetnrage % of the plays that an artists represents 
+// the position that the artist is in the top 100 artists since the beginning 
 
 
 
@@ -213,6 +311,5 @@ let test;
 readJson().then((value) => {
 
   test = new State(value);
-  //console.log(test)
- 
-});
+  console.log(test.getTop20OfArtist("21 Savage"))
+})
