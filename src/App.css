@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes gradient-animation {
+    0% {
+      background-image: linear-gradient(to right, #4B6A9B, #6F88B8);
+    }
+    50% {
+      background-image: linear-gradient(to bottom right, #4B6A9B, #6F88B8);
+    }
+    100% {
+      background-image: linear-gradient(to right, #4B6A9B, #6F88B8);
+    }
+  }
+  
+  .animate-gradient {
+    animation-name: gradient-animation;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+  }

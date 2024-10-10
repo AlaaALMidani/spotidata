@@ -1,17 +1,34 @@
-import fs from "fs/promises";
+// import fs from "fs/promises";
 
-async function readJson() {
-  try {
-    const data = await fs.readFile("./src/logic/spotify_data.json", "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    return "Error reading JSON file:";
-  }
-}
+// export async function readJson() {
+//   try {
+//     const data = await fs.readFile("./src/logic/spotify_data.json", "utf8");
+//     return JSON.parse(data);
+//   } catch (error) {
+//     return "Error reading JSON file:";
+//   }
+// }
+// import express from 'express';
+// import { readFile } from 'node:fs/promises';
+// import cors from 'cors'; // Important for CORS
+// const app = express();
+// app.use(cors());
 
+// const port = 3001; // Choose a port
 
+// app.get('/api/spotifyData', async (req, res) => {
+//   try {
+//     const data = await readFile('./src/logic/spotify_data.json', 'utf8'); // Adjust path if needed
+//     res.json(JSON.parse(data));
+//   } catch (error) {
+//     console.error('Error reading file:', error);
+//     res.status(500).send('Error reading Spotify data');
+//   }
+// });
 
-
+// app.listen(port, () => {
+//   console.log(`Server listening on port ${port}`);
+// });
 
 
 
@@ -22,7 +39,7 @@ class Audio {
   constructor(data) {
     this.id = data._id["$oid"];
     this.timestamp = new Date(data.ts);
-    this.msPlayed = Math.round(data.ms_played / 60 / 1000);
+    this.msPlayed = data.ms_played / 60 / 1000;
     this.trackName = data.master_metadata_track_name;
     this.albumArtistName = data.master_metadata_album_artist_name;
     this.albumName = data.master_metadata_album_album_name;
@@ -45,7 +62,6 @@ class Audio {
 
 class LogicFunctions {
 
-  // ['ahmad':20 , 'ali' :30]
 
   static orderAccordingTo(dataList, field) {
     let map = new Map()
@@ -82,7 +98,7 @@ class LogicFunctions {
 
       }
     }
-    return hours.indexOf(Math.max(...hours)) + 1
+    return hours.indexOf(Math.max(...hours)) 
   }
   static getPreferredListingSeason(data) {
     let season = [0, 0, 0, 0]
@@ -114,7 +130,7 @@ class LogicFunctions {
         set.add(data[i].timestamp.toDateString())
       }
     }
-    return Math.round(totalTimePlayed / set.size)
+    return totalTimePlayed / set.size
   }
   static countUniqElements(data, field) {
     let set = new Set()
@@ -131,21 +147,21 @@ class LogicFunctions {
     return sum;
   }
   static getPlays(data,artist){
-    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let filtered = data.filter((e)=> e.albumArtistName === artist)
     return filtered
   }
   static getDifferentTracksNumber(data,artist){
-    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let filtered = data.filter((e)=> e.albumArtistName === artist)
     let tracks = []
     for(let i of filtered){
-      if(tracks.indexOf(i.trackName) ==-1){
+      if(tracks.indexOf(i.trackName) ===-1){
         tracks.push(i.trackName)
       }
     }
     return tracks.length
   }
   static getTimeListening(data,artist){
-    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let filtered = data.filter((e)=> e.albumArtistName === artist)
     let times = 0
     for(let i of filtered){
       times+= i.msPlayed
@@ -153,10 +169,10 @@ class LogicFunctions {
     return times
   }
   static getDifferentTracks(data,artist){
-    let filtered = data.filter((e)=> e.albumArtistName == artist)
+    let filtered = data.filter((e)=> e.albumArtistName === artist)
     let tracks = []
     for(let i of filtered){
-      if(tracks.indexOf(i.trackName) ==-1){
+      if(tracks.indexOf(i.trackName) ===-1){
         tracks.push(i)
       }
     }
@@ -182,7 +198,7 @@ class LogicFunctions {
   }
 }
 
-class State {
+ class State {
 
   //splitted lists (contain objects of Audio Class )
   all = [];
@@ -279,7 +295,7 @@ class State {
     let pos = this.sortedArtists
     let result = 0
     for(let i of pos){
-      if(i[0] == id){
+      if(i[0] === id){
         result = pos.indexOf(i) + 1
       }
     }
@@ -304,12 +320,12 @@ class State {
 
 
 
+export default State
 
 
+// let test;
+// readJson().then((value) => {
 
-let test;
-readJson().then((value) => {
-
-  test = new State(value);
-  console.log(test.getTop20OfArtist("21 Savage"))
-})
+//   test = new State(value);
+//   console.log(test.getTop20OfArtist("21 Savage"))
+// })
