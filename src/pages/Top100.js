@@ -2,8 +2,8 @@ import TopArtistsCard from "../components/TopArtistsCard.js";
 import { useNavigate } from "react-router-dom";
 function Top(props) {
   const navigate = useNavigate()
-  const handleClick = (i) => {
-    navigate('/Artist', { state: { name: i } })
+  const handleClick = (i,ind) => {
+    navigate('/Artist', { state: { name: i ,ind: ind} })
   }
   return (
     <div className="bg-slate-950 flex flex-col items-start pl-7 w-full">
@@ -22,7 +22,7 @@ function Top(props) {
 
         <ol className="flex flex-col  rounded-lg">
           {props.array.slice(0, 100).map((_, index) => (
-            <li key={index} className="flex items-center " onClick={() => props.title === "Artists" ? handleClick(_[0]) : ""}>
+            <li key={index} className="flex items-center " onClick={() => props.title === "Artists" ? handleClick(_[0] ,index) : ""}>
               <span className="text-2xl font-bold text-emerald-500 mr-4">{index + 1}.</span>
               <TopArtistsCard title={_[0]} index={index} />
             </li>

@@ -28,7 +28,7 @@ export function Artist(props) {
           {array.slice(0, 20).map((_, index) => (
             <li key={index} className="flex items-center justify-start w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
               <span className="text-2xl text-emerald-500 mr-4">{index + 1}.</span>
-              <TopArtistsCard title={_} time="564646" />
+              <TopArtistsCard title={_} index={index} time="564646" />
             </li>
           ))}
 
