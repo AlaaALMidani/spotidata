@@ -12,7 +12,7 @@ export function Artist(props) {
 
   return (
     <div className="bg-slate-950 w-full h-full flex flex-col items-center">
-      <h1 className="text-5xl text-emerald-500 p-8">{name}</h1>
+      <h1 className="text-5xl text-green-500 p-8">{name}</h1>
       <div className="flex flex-col items-center space-y-8">
         <div className="flex justify-center space-x-8">
           <Card title="Total Plays" value={state.logic.getPlaysOfArtist(name)} />

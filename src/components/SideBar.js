@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
-    <div className="flex flex-col w-2/12 min-w-[250px] min-h-screen bg-slate-950 border-r-[1px] items-center justify-start border-solid border-gray-600 border-opacity-50 ">
+    <div className="flex flex-col w-2/12 min-w-[250px] min-h-screen bg-slate-950 border-r-[1px] items-center justify-start border-solid border-green-500 border-opacity-20 ">
 
 
       <div className="flex flex-col h-[450px] fixed">

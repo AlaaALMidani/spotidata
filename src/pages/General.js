@@ -19,7 +19,7 @@ export const General = () => {
   return (
     <Swiper className="">
       <SwiperSlide className="">
-        <div className=" flex flex-col  items-center justify-start w-full bg-slate-950 h-screen">
+        <div className=" flex flex-col  items-center justify-start w-full bg-slate-950 min-h-screen">
           <nav className="bg-transparent border-b-gray-500 border-opacity-40 border-b-[1px] dark:bg-gray-900 dark:border-gray-700 p-1 flex mt-10 rounded-lg ">
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border rounded-lg bg-transparent md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 ">
               <li>
@@ -52,14 +52,14 @@ export const General = () => {
 
           </nav>
 
-          <div className="body justify-center mt-3 ">
+          <div className="body justify-center mt-3  ">
             <div className="mr-4 cards">
-              <div className="flex justify-end">
+              <div className="flex justify-end flex-wrap">
                 <Card title="Total Plays" value={state.logic.playsNumber} sub={"Times"} />
                 <Card title="Total Audios" value={state.logic.differentAudios} sub={"Tracks"} />
                 <Card title="Total Listening Time" value={state.logic.spentListingTime/60} sub={"Hour"} />
-              </div>
-              <div className="flex justify-end">
+              </div>  
+              <div className="flex justify-end  flex-wrap">
                 <Card title="Average listening Time" value={state.logic.dailyAverageTimeSpent/60} sub={"Hour"} />
                 <Card title="Preferred listening hour" value={state.logic.preferredHour.toString()+':00'} sub={"UTC"} />
                 <Card title="Preferred listening season" value={state.logic.preferredSeason} sub={"Season"} />
